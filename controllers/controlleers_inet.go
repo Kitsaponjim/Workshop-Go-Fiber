@@ -139,12 +139,11 @@ func RemoveDog(c *fiber.Ctx) error {
 	return c.SendStatus(200)
 }
 
+// 7.2 แสดงผลรวมจำนวนแต่ละสี
 func GetDogsJson(c *fiber.Ctx) error {
 	db := database.DBConn
 	var dogs []m.Dogs
-
-	db.Find(&dogs) //10ตัว
-
+	db.Find(&dogs)
 	var dataResults []m.DogsRes
 	var CountRed, CountGreen, CountPink, CountNo int
 	for _, v := range dogs { //1 inet 112 //2 inet1 113
@@ -184,7 +183,8 @@ func GetDogsJson(c *fiber.Ctx) error {
 	return c.Status(200).JSON(r)
 }
 
-func TestShowDelete(c *fiber.Ctx) error {
+// 7.0.2 แสดงข้อมูลที่ถูกลบไปแล้ว
+func ShowDelete(c *fiber.Ctx) error {
 	db := database.DBConn
 	var dogs []m.Dogs
 	db.Unscoped().Where("deleted_at IS NOT NULL").Find(&dogs)
@@ -258,11 +258,12 @@ func RemoveCompany(c *fiber.Ctx) error {
 	return c.SendStatus(200)
 }
 
+// 7.1 หา dog_id > 50 แต่น้อยกว่า 100
 func GetDogsScope(c *fiber.Ctx) error {
 	db := database.DBConn
 	var dogs []m.Dogs
 
-	db.Scopes(GetScope).Find(&dogs) //delelete = null
+	db.Scopes(GetScope).Find(&dogs)
 	return c.Status(200).JSON(dogs)
 }
 

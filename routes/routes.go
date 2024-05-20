@@ -24,13 +24,13 @@ func InetRoutes(app *fiber.App) {
 	dog := v1.Group("/dog")
 	dog.Get("", c.GetDogs)
 	dog.Get("/filter", c.GetDog)
-	dog.Get("/json", c.GetDogsJson)
-	dog.Post("/", c.AddDog) //create
+	dog.Get("/json", c.GetDogsJson) //7.2
+	dog.Post("/", c.AddDog)         //create
 	dog.Put("/:id", c.UpdateDog)
 	dog.Delete("/:id", c.RemoveDog)
 
-	dog.Get("/ShowTest", c.TestShowDelete)
-	dog.Get("/Scope", c.GetDogsScope)
+	dog.Get("/lostdog", c.ShowDelete) //7.0.2 แสดงข้อมูลที่ถูกลบไปแล้ว
+	dog.Get("/Scope", c.GetDogsScope) //7.1
 
 	//CRUD Company
 	company := v1.Group("/company")
