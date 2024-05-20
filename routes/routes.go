@@ -21,8 +21,7 @@ func InetRoutes(app *fiber.App) {
 
 	//ข้อ 5.2
 	v3 := api.Group("/v3")
-	jim := v3.Group("/jim")
-	jim.Post("/", c.FiveDotTwo)
+	v3.Post("/jim", c.FiveDotTwo)
 
 	//ข้อ 6
 	v1.Post("/register", c.Six)
