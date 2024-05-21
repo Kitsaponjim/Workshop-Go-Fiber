@@ -34,10 +34,23 @@ type ResultData struct {
 	CountNo    int       `json:"count_nocolor"`
 }
 
+//7.0.1
 type Company struct {
 	gorm.Model
 	CompanyName    string `json:"name"`
 	CompanyAddress string `json:"address"`
 	CompanyTel     string `json:"tel"`
 	Company_Id     string `json:"id"`
+}
+
+// Project 2
+type UserProfile struct {
+	gorm.Model
+	Employee_id int    `json:"employee_id"`
+	Name        string `json:"name"`
+	LastName    string `json:"lastName"`
+	Birthday    string `json:"birthday"`
+	Age         int    `json:"age"`
+	Email       string `json:"email"`
+	Tel         string `json:"tel"`
 }

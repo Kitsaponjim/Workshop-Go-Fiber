@@ -270,3 +270,68 @@ func GetDogsScope(c *fiber.Ctx) error {
 func GetScope(db *gorm.DB) *gorm.DB {
 	return db.Where("dog_id > ? && dog_id < ?", 50, 100)
 }
+
+// CRUD Project
+// Read UsersProfile
+func GetUsers(c *fiber.Ctx) error {
+	db := database.DBConn
+	var user []m.UserProfile
+
+	db.Find(&user)
+	return c.Status(200).JSON(user)
+}
+
+// Read UserProfile
+func GetUser(c *fiber.Ctx) error {
+	db := database.DBConn
+	search := strings.TrimSpace(c.Query("search"))
+	var user []m.UserProfile
+
+	result := db.Find(&user, "employee_id = ?", search)
+
+	if result.RowsAffected == 0 {
+		return c.SendStatus(404)
+	}
+	return c.Status(200).JSON(&user)
+}
+
+// Create UserProfile
+func AddUser(c *fiber.Ctx) error {
+	db := database.DBConn
+	var user m.UserProfile
+
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(503).SendString(err.Error())
+	}
+
+	db.Create(&user)
+	return c.Status(200).JSON(user)
+}
+
+// Update UserProfile
+func UpdateUser(c *fiber.Ctx) error {
+	db := database.DBConn
+	var user m.UserProfile
+	id := c.Params("id")
+
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(503).SendString(err.Error())
+	}
+
+	db.Where("id = ?", id).Updates(&user)
+	return c.Status(200).JSON(user)
+}
+
+func DeleteUser(c *fiber.Ctx) error {
+	db := database.DBConn
+	var user m.UserProfile
+	id := c.Params("id")
+
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(503).SendString(err.Error())
+	}
+
+	db.Where("id = ?", id).Delete(&user)
+	return c.Status(200).JSON(user)
+
+}

@@ -8,6 +8,23 @@ import (
 )
 
 func InetRoutes(app *fiber.App) {
+	api := app.Group("/api")
+	v1 := api.Group("/v1")
+	//CRUD Project UserProfile
+	user := v1.Group("/user")
+	user.Get("/", c.GetUsers)
+	user.Get("/filter", c.GetUser)
+
+	user.Use(basicauth.New(basicauth.Config{
+		Users: map[string]string{
+			"testgo": "23012023",
+		},
+	}))
+
+	user.Post("/", c.AddUser)
+	user.Put("/:id", c.UpdateUser)
+	user.Delete("/:id", c.DeleteUser)
+
 	//ข้อ 5.0
 	app.Use(basicauth.New(basicauth.Config{
 		Users: map[string]string{
@@ -15,8 +32,6 @@ func InetRoutes(app *fiber.App) {
 		},
 	}))
 	//ข้อ 5.1
-	api := app.Group("/api")
-	v1 := api.Group("/v1")
 	v1.Post("/fact/:number", c.FiveDotOne)
 	v1.Get("/TestParams", c.TestParams)
 
